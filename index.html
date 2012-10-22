@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+	
+	<head>
+		<meta charset="utf-8">
+		<title>Handlebars.js explanation</title>
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="lib/zenburn.css">
+		<script src="lib/jquery.min.js"></script>
+		<script src="js/misc.js"></script>
+	</head>
+	
+	<body>
+		
+		<!-- Any section element inside of this container is displayed as a slide -->
+		<div id="main">
+
+<section>
+	<div class="mod-page title"><div><div>
+		<h1>Handlebars.js</h1>
+		<p>Takeshi Takatsudo (<a href="http://twitter.com/Takazudo">@Takazudo</a>)</p>
+	</div></div></div>
+</section>
+
+<section>
+	<section>
+		<div class="mod-page plain c"><div><div>
+			<h1>_.template</h1>
+<pre><code>&lt;div class=&quot;block&quot;&gt;
+    &lt;h2&gt;&lt;%- title %&gt;&lt;/h2&gt;
+    &lt;p&gt;&lt;%= content1 %&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;%- content2 %&gt;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+
+<pre><code>var compile = _.template(src);
+var data = { title: 'hoge', ... };
+var html = compile(data); // コンパイル結果
+</code></pre>
+		</div></div></div>
+	</section>
+</section>
+
+<section>
+	<section>
+		<div class="mod-page plain c"><div><div>
+			<h1>属性とか書く時読み辛い</h1>
+<pre><code>&lt;a
+    href=&quot;&lt;%- url %&gt;&quot;
+    &lt;% if(target){ %&gt;
+        target=&quot;&lt;%- target %&gt;&quot;
+    &lt;% } %&gt;
+&gt;
+    &lt;%- item.url %&gt;
+&lt;/a&gt;
+</code></pre>
+		</div></div></div>
+	</section>
+</section>
+
+<section>
+	<section>
+		<div class="mod-page plain c"><div><div>
+			<h1>シンプルだけど冗長</h1>
+<pre><code>&lt;% _(items).each(function(item, i){ %&gt;
+    &lt;% if(item.items){ %&gt;
+        ...
+    &lt;% } else { %&gt;
+        ...
+    &lt;% } %&gt;
+&lt;% }); %&gt;
+</code></pre>
+		</div></div></div>
+	</section>
+</section>
+
+<section>
+	<section>
+		<div class="mod-page plain c"><div><div>
+			<h1>入れ子が超深くなる</h1>
+<pre><code>&lt;% _(items).each(function(item, i){ %&gt;
+    &lt;% if(item.items){ %&gt;
+        &lt;% _(items).each(function(item, i){ %&gt;
+            &lt;% if(item.pcFlag === 1){ %&gt;
+                ...
+                    ...
+                        ...
+            &lt;% } %&gt;
+        &lt;% }); %&gt;
+&lt;% }); %&gt;
+</code></pre>
+		</div></div></div>
+	</section>
+</section>
+
+<section>
+	<section>
+		<div class="mod-page plain c"><div><div>
+			<h1>エラーがわからん</h1>
+			<img src="imgs/error.png" alt="">
+		</div></div></div>
+	</section>
+</section>
+
+<section>
+	<section>
+		<div class="mod-page plain"><div><div>
+			<h1>Underscore.js</h1>
+<ul class="relaxed">
+<li>シンプルなのでいい</li>
+<li>でもその分たいしたことない</li>
+</ul>
+<p>JSONもらってほぼフロントだけでなんかするみたいなときにはちょっと役不足かも</p>
+		</div></div></div>
+	</section>
+</section>
+
+<section>
+	<section>
+		<div class="mod-page plain"><div><div>
+			<h1>jQuery Templates</h1>
+<ul class="relaxed">
+<li>入れ子が超深くなる問題</li>
+<li>エラーがわからん問題</li>
+<li>オワコン</li>
+</ul>
+		</div></div></div>
+	</section>
+</section>
+
+<section>
+	<section>
+		<div class="mod-page plain"><div><div>
+			<h1>Handlebars.js</h1>
+<p>http://handlebarsjs.com/</p>
+
+<ul class="relaxed">
+<li>結構頑張って作ってるっぽい</li>
+<li>jQuery conferenceでもTシャツ売ってた</li>
+<li>jQuery conferenceでもワインオープナー売ってた</li>
+<li>ember.js (client MVCライブラリ) でも使ってる風</li>
+</ul>
+
+		</div></div></div>
+	</section>
+</section>
+
+<section>
+	<section>
+		<div class="mod-page plain"><div><div>
+			<h1>基本文法</h1>
+<ul class="relaxed">
+<li>エスケープする {{val}}</li>
+<li>エスケープしない {{{val}}}</li>
+<li>{{#each items}} &#8230; {{/each}}</li>
+<li>{{#if condition}} &#8230; {{/if}}</li>
+</ul>
+<pre><code>{{#if person.name}}
+    I am {{name}}.
+{{/if}}</code></pre>
+		</div></div></div>
+	</section>
+</section>
+
+<section>
+	<section>
+		<div class="mod-page plain c"><div><div>
+			<h1>{{ }}なので比較的見やすい</h1>
+<pre><code>&lt;div id=&quot;{{{id}}}&quot;&gt;
+    &lt;a
+        href=&quot;{{{url}}}&quot;
+        {{#if target}} target=&quot;{{target}}&quot;{{/if}}
+    &gt;
+        {{linkText}}
+    &lt;/a&gt;
+&lt;/div&gt;
+</code></pre>
+		</div></div></div>
+	</section>
+</section>
+
+<section>
+	<section>
+		<div class="mod-page plain c"><div><div>
+			<h1>エラー箇所を教えてくれる</h1>
+			<img src="imgs/error2.png" alt="">
+		</div></div></div>
+	</section>
+</section>
+
+<section>
+	<section>
+		<div class="mod-page plain c"><div><div>
+			<h1 style="font-size:1.2em">なぜテンプレートの入れ子が深くなるか</h1>
+<p>入れ子が深くなる時はどういう時か</p>
+
+<pre><code>{
+    products: [
+        { tags: [...], ... },
+        { tags: [...], ... },
+        { tags: [...], ... }
+    ]
+}
+</code></pre>
+		</div></div></div>
+	</section>
+</section>
+
+<section>
+	<section>
+		<div class="mod-page plain c"><div><div>
+			<h1>連続する何かの中に連続する何か</h1>
+<pre><code>&lt;table&gt;
+    &lt;tr&gt;
+        &lt;th&gt;商品&lt;/th&gt;
+        <em>{{#each products}}</em>
+        <em>    {{#if tags}}</em>
+        <em>        {{#each tags}}</em>
+        <em>            &lt;a href=&quot;{{link}}&quot;&gt;{{name}}&lt;/a&gt;</em>
+        <em>        {{/each}}</em>
+        <em>        ...</em>
+        <em>    {{/if}}</em>
+        <em>{{/each}}</em>
+    &lt;/tr&gt;
+&lt;/table&gt;
+</code></pre>
+		</div></div></div>
+	</section>
+</section>
+
+<section>
+	<section>
+		<div class="mod-page plain c"><div><div>
+			<h1>アイテムだけ定義</h1>
+<pre><code>&lt;script type=&quot;x-hoge/text&quot; id=&quot;item&quot;&gt;
+    <em>{{#if tags}}</em>
+    <em>    {{#each tags}}</em>
+    <em>        &lt;a href=&quot;{{link}}&quot;&gt;{{name}}&lt;/a&gt;</em>
+    <em>    {{/each}}</em>
+    <em>    ...</em>
+    <em>{{/if}}</em>
+&lt;/script&gt;
+</code></pre>
+		</div></div></div>
+	</section>
+</section>
+
+<section>
+	<section>
+		<div class="mod-page plain c"><div><div>
+			<h1>アイテムを参照</h1>
+<pre><code>&lt;script type=&quot;x-hoge/text&quot; id=&quot;table&quot;&gt;
+    &lt;table&gt;
+        &lt;tr&gt;
+            &lt;th&gt;商品&lt;/th&gt;
+            <em>{{#each products}}</em>
+                <em>{{&gt; item}}</em>
+            <em>{{/each}}</em>
+        &lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/script&gt;
+</code></pre>
+		</div></div></div>
+	</section>
+</section>
+
+<section>
+	<section>
+		<div class="mod-page plain c"><div><div>
+			<h1>registerPartial</h1>
+<pre><code>var item = $('#item').html();
+<em>Handlebars.registerPartial('item', item);</em>
+
+// これやれば &gt;item で参照できる
+
+var table = $('#table').html();
+var data = {...};
+var compile = Handlebars.compile(table);
+$('#somewhere').html( compile(data) );
+</code></pre>
+		</div></div></div>
+	</section>
+</section>
+
+<section>
+	<section>
+		<div class="mod-page plain c"><div><div>
+			<h1>自分でヘルパー登録できる</h1>
+<pre><code>&lt;script type=&quot;x-hoge/text&quot; id=&quot;src&quot;&gt;
+    <em>{{#dattebayolist items}}</em>
+    <em>    {{this}}</em>
+    <em>{{/dattebayolist}}</em>
+&lt;/script&gt;</code></pre>
+<pre><code>var data = {
+    <em>items: [ 'ニンジャ', 'JavaScript', 'まんじゅう' ]</em>
+};
+var compile = Handlebars.compile($('#src').html());
+$('body').append( compile(data) );
+</code></pre>
+
+		</div></div></div>
+	</section>
+</section>
+
+<section>
+	<section>
+		<div class="mod-page plain c"><div><div>
+			<h1>dattebayolist</h1>
+<pre style="font-size:.65em"><code>Handlebars.registerHelper('dattebayolist', function(items) {
+    var out = <em>&quot;&lt;ul&gt;&quot;</em>;
+    for(var i=0, l=items.length; i&lt;l; i++) {
+        out = out + <em>&quot;&lt;li&gt;&quot; + items[i] + &quot;だってばよ&lt;/li&gt;&quot;</em>;
+    }
+    return out + <em>&quot;&lt;/ul&gt;&quot;</em>;
+});
+</code></pre>
+			<p style="padding-top:10px"><img src="imgs/ninja.png" alt=""></p>
+
+		</div></div></div>
+	</section>
+</section>
+
+<section>
+	<section>
+		<div class="mod-page plain"><div><div>
+			<h1>まとめ</h1>
+<p>Handlerbars.js がイケてる点</p>
+
+<ul class="relaxed">
+<li>registerPartial</li>
+<li>エラー箇所がわかる</li>
+<li>{{}} だから見やすい</li>
+<li>自分で拡張しやすい</li>
+<li>結構開発されてる</li>
+</ul>
+
+<p>おわり</p>
+		</div></div></div>
+	</section>
+</section>
+
+
+
+		</div>
+
+		<div class="mod-timer">999</div>
+		
+		<aside class="controls">
+			<a class="left" href="#">&#x25C4;</a>
+			<a class="right" href="#">&#x25BA;</a>
+			<a class="up" href="#">&#x25B2;</a>
+			<a class="down" href="#">&#x25BC;</a>
+		</aside>
+
+		<!-- Displays presentation progress, max value changes via JS to reflect # of slides -->
+		<div class="progress"><span></span></div>
+		
+		<script src="js/reveal.js"></script>
+		<script src="lib/highlight.js"></script>
+		<script>
+			Reveal.initialize({
+				// Display controls in the bottom right corner
+				controls: true,
+
+				// Display a presentation progress bar
+				progress: true,
+
+				// Apply a 3D roll to links on hover
+				rollingLinks: true,
+
+				// Styling themes, only affects transitions for now
+				theme: 'default' // default/concave/linear
+			});
+
+			//hljs.initHighlightingOnLoad();
+		</script>
+
+
+	</body>
+</html>
